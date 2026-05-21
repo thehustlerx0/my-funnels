@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SummerCamp — Coaching Trading</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --gold-dark: #8A6B20;
+    --ink: #0D0D0D;
+    --ink-2: #1A1A1A;
+    --ink-3: #2C2C2C;
+    --gray: #6B6B6B;
+    --gray-light: #B0B0B0;
+    --surface: #F7F4EF;
+    --surface-2: #EDEAE3;
+    --white: #FFFFFF;
+    --accent: #1C3A5E;
+    --accent-light: #2D5F96;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--ink);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 2.5rem;
+    background: rgba(13,13,13,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.35rem;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--gray-light); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 7rem 2rem 4rem;
+    background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(201,168,76,0.08) 0%, transparent 70%),
+                var(--ink);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); border: 1px solid rgba(201,168,76,0.4);
+    padding: 0.4rem 1.1rem; border-radius: 100px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800; line-height: 1;
+    letter-spacing: -0.02em;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--gray-light); max-width: 540px;
+    margin: 1.5rem auto 3rem;
+    font-weight: 300; line-height: 1.7;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .cta-group {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.9rem 2rem; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 500;
+    text-decoration: none; transition: all 0.2s; cursor: pointer;
+    border: none;
+  }
+  .btn-gold {
+    background: var(--gold); color: var(--ink);
+  }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 5rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 700; color: var(--gold);
+  }
+  .stat-label { font-size: 0.8rem; color: var(--gray); letter-spacing: 0.05em; margin-top: 0.2rem; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 2rem; }
+  .container { max-width: 1060px; margin: 0 auto; }
+  .section-tag {
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem; display: block;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700; line-height: 1.15;
+    margin-bottom: 1.2rem;
+  }
+  .section-desc {
+    color: var(--gray-light); font-size: 1.05rem;
+    line-height: 1.75; max-width: 560px; font-weight: 300;
+  }
+
+  /* ── SEPARATOR ── */
+  .gold-line {
+    width: 48px; height: 2px; background: var(--gold);
+    margin: 1.5rem 0;
+  }
+
+  /* ── TRADER PROFILE ── */
+  .profile-section { background: var(--ink-2); }
+  .profile-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  .profile-img-wrap {
+    position: relative;
+  }
+  .profile-photo {
+    width: 100%; border-radius: 12px;
+    aspect-ratio: 3/4; object-fit: cover;
+    background: var(--ink-3);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .profile-photo-placeholder {
+    width: 100%; aspect-ratio: 3/4;
+    background: linear-gradient(135deg, var(--ink-3) 0%, #1e1e1e 100%);
+    border-radius: 12px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    border: 1px solid rgba(201,168,76,0.2);
+    gap: 1rem;
+  }
+  .profile-photo-placeholder svg { opacity: 0.3; }
+  .profile-photo-placeholder span {
+    font-size: 0.8rem; color: var(--gray); letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .profile-badge {
+    position: absolute; bottom: -1.5rem; right: -1.5rem;
+    background: var(--gold); color: var(--ink);
+    border-radius: 10px; padding: 1rem 1.25rem;
+    font-family: 'Syne', sans-serif;
+    text-align: center;
+  }
+  .profile-badge .years { font-size: 1.8rem; font-weight: 800; line-height: 1; }
+  .profile-badge .label { font-size: 0.72rem; letter-spacing: 0.04em; margin-top: 0.2rem; }
+  .profile-text { padding-bottom: 2rem; }
+  .skills-list {
+    list-style: none; display: flex; flex-wrap: wrap; gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+  .skills-list li {
+    font-size: 0.8rem; padding: 0.35rem 0.85rem;
+    border-radius: 100px;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold-light); letter-spacing: 0.04em;
+  }
+
+  /* ── COACHING SECTION ── */
+  .coaching-section { background: var(--ink); }
+  .problems-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .problem-card {
+    background: var(--ink-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; padding: 1.75rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .problem-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-3px); }
+  .problem-icon {
+    width: 42px; height: 42px; border-radius: 8px;
+    background: rgba(201,168,76,0.1);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.1rem;
+    font-size: 1.3rem;
+  }
+  .problem-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 600;
+    margin-bottom: 0.6rem; color: var(--white);
+  }
+  .problem-card p { font-size: 0.88rem; color: var(--gray); line-height: 1.65; }
+
+  /* ── COACHING WHY ── */
+  .why-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: start; margin-top: 4rem;
+  }
+  .why-points { display: flex; flex-direction: column; gap: 1.5rem; }
+  .why-point { display: flex; gap: 1rem; align-items: flex-start; }
+  .why-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--gold); min-width: 2rem; padding-top: 0.1rem;
+  }
+  .why-point h4 { font-size: 1rem; font-weight: 500; margin-bottom: 0.35rem; }
+  .why-point p { font-size: 0.88rem; color: var(--gray); line-height: 1.6; }
+
+  .coaching-box {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 16px; padding: 2.5rem;
+  }
+  .coaching-box h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem; font-weight: 700;
+    margin-bottom: 1.5rem; color: var(--gold);
+  }
+  .offer-item {
+    display: flex; gap: 0.75rem; align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  .offer-check { color: var(--gold); font-size: 1.1rem; margin-top: 0.05rem; }
+  .offer-item p { font-size: 0.9rem; color: var(--gray-light); line-height: 1.55; }
+
+  /* ── BOOKING ── */
+  .booking-section {
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .booking-section .section-title { color: var(--ink); }
+  .booking-section .section-desc { color: var(--ink-3); }
+  .booking-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2rem; margin-top: 3rem;
+  }
+  .booking-card {
+    border-radius: 16px; padding: 2.5rem;
+    display: flex; flex-direction: column;
+    align-items: flex-start; gap: 1rem;
+    text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .booking-card:hover { transform: translateY(-4px); }
+  .booking-card-yt {
+    background: #FF0000; color: var(--white);
+  }
+  .booking-card-yt:hover { box-shadow: 0 16px 48px rgba(255,0,0,0.3); }
+  .booking-card-gcal {
+    background: var(--accent); color: var(--white);
+  }
+  .booking-card-gcal:hover { box-shadow: 0 16px 48px rgba(28,58,94,0.4); }
+  .booking-icon { font-size: 2.5rem; }
+  .booking-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 700;
+  }
+  .booking-card p { font-size: 0.9rem; opacity: 0.85; line-height: 1.6; }
+  .booking-arrow {
+    margin-top: auto; font-size: 1.5rem; opacity: 0.7;
+    transition: transform 0.2s;
+  }
+  .booking-card:hover .booking-arrow { transform: translateX(4px); opacity: 1; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 3rem 2rem;
+  }
+  .footer-inner {
+    max-width: 1060px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.1rem;
+    color: var(--gold); letter-spacing: 0.1em;
+  }
+  .footer-copy { font-size: 0.82rem; color: var(--gray); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.82rem; color: var(--gray); text-decoration: none; }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 720px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    .profile-grid, .why-grid, .booking-grid { grid-template-columns: 1fr; }
+    .profile-badge { right: 0; }
+    .profile-img-wrap { margin-bottom: 3rem; }
+    .hero h1 { font-size: 2.8rem; }
+    .hero-stats { gap: 1.5rem; }
+    section { padding: 4rem 1.25rem; }
+    .why-grid { gap: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#top" class="nav-logo">SUMMERCAMP</a>
+  <ul class="nav-links">
+    <li><a href="#about">Le Trader</a></li>
+    <li><a href="#coaching">Le Coaching</a></li>
+    <li><a href="#booking">Réserver</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-badge">Programme Coaching Exclusif</div>
+  <h1>Trade<br>avec <span>méthode.</span></h1>
+  <p class="hero-sub">Un coaching intensif pour passer du trading émotionnel à une approche structurée, rentable et reproductible.</p>
+  <div class="cta-group">
+    <a href="#booking" class="btn btn-gold">
+      ▶ Réserver un appel
+    </a>
+    <a href="#coaching" class="btn btn-outline">
+      En savoir plus
+    </a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">8+</div>
+      <div class="stat-label">Années d'expérience</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">200+</div>
+      <div class="stat-label">Traders coachés</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Marchés maîtrisés</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">97%</div>
+      <div class="stat-label">Satisfaction client</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRADER PROFILE -->
+<section class="profile-section" id="about">
+  <div class="container">
+    <div class="profile-grid">
+      <div class="profile-img-wrap">
+        <div class="profile-photo-placeholder">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span>Photo du trader</span>
+        </div>
+        <div class="profile-badge">
+          <div class="years">8</div>
+          <div class="label">ans de<br>marché</div>
+        </div>
+      </div>
+
+      <div class="profile-text">
+        <span class="section-tag">Le Trader</span>
+        <h2 class="section-title">Alex Moreau,<br>Trader Professionnel</h2>
+        <div class="gold-line"></div>
+        <p class="section-desc">
+          Trader depuis 2016, spécialisé sur le Forex, les indices et les crypto-actifs.
+          Après avoir perdu ses premiers comptes comme tout le monde, Alex a développé
+          une méthodologie basée sur la gestion du risque, la psychologie et l'analyse
+          technique avancée — transmise aujourd'hui à travers SummerCamp.
+        </p>
+
+        <ul class="skills-list">
+          <li>Forex</li>
+          <li>Indices boursiers</li>
+          <li>Crypto</li>
+          <li>Price Action</li>
+          <li>Gestion du risque</li>
+          <li>SMC / ICT</li>
+          <li>Psychologie du trading</li>
+        </ul>
+
+        <div style="margin-top: 2rem; padding: 1.5rem; border-left: 2px solid var(--gold); background: rgba(201,168,76,0.05); border-radius: 0 8px 8px 0;">
+          <p style="font-size: 0.95rem; font-style: italic; color: var(--gray-light); line-height: 1.75;">
+            "Le trading ne s'apprend pas seul. Ce qui m'a fait progresser le plus vite,
+            c'est d'avoir quelqu'un pour corriger mes erreurs en temps réel."
+          </p>
+          <p style="font-size: 0.82rem; color: var(--gold); margin-top: 0.7rem; letter-spacing: 0.04em;">— Alex Moreau</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COACHING SECTION -->
+<section class="coaching-section" id="coaching">
+  <div class="container">
+
+    <!-- Problèmes -->
+    <div style="max-width: 560px;">
+      <span class="section-tag">Le Problème</span>
+      <h2 class="section-title">Ce que vivent la plupart des traders</h2>
+      <div class="gold-line"></div>
+      <p class="section-desc">
+        95% des traders perdent de l'argent. Non pas par manque d'intelligence,
+        mais par manque de structure, de méthode et d'accompagnement.
+      </p>
+    </div>
+
+    <div class="problems-grid">
+      <div class="problem-card">
+        <div class="problem-icon">😤</div>
+        <h3>Le trading émotionnel</h3>
+        <p>Fear of missing out, revenge trading, couper ses gains trop vite… Les émotions détruisent les meilleures stratégies.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🔀</div>
+        <h3>Changer de stratégie en boucle</h3>
+        <p>Passer d'une méthode à l'autre sans jamais maîtriser aucune. Le syndrome de l'écureuil qui court après la prochaine "edge".</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">💸</div>
+        <h3>Mauvaise gestion du risque</h3>
+        <p>Positions trop grandes, pas de stop loss, ou des stop placés au hasard. Un seul trade peut effacer des semaines de gains.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🗺️</div>
+        <h3>Aucun plan de trading clair</h3>
+        <p>Trader sans règles définies, sans journal, sans analyse de performance. Impossible de progresser dans ces conditions.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🔇</div>
+        <h3>Apprendre seul sur YouTube</h3>
+        <p>Des heures de vidéos contradictoires, aucun feedback personnalisé, et des progrès qui stagnent malgré des mois d'efforts.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🧱</div>
+        <h3>Manque de structure mentale</h3>
+        <p>Perdre confiance après une série de pertes, douter de sa méthode, ne plus savoir si on est "fait pour ça".</p>
+      </div>
+    </div>
+
+    <!-- Pourquoi le coaching -->
+    <div style="margin-top: 6rem;">
+      <span class="section-tag">La Solution</span>
+      <h2 class="section-title">Pourquoi un coaching change tout</h2>
+      <div class="gold-line"></div>
+
+      <div class="why-grid">
+        <div class="why-points">
+          <div class="why-point">
+            <span class="why-num">01</span>
+            <div>
+              <h4>Feedback personnalisé en temps réel</h4>
+              <p>On analyse tes trades ensemble. On identifie tes patterns d'erreur et on les corrige immédiatement — pas dans 6 mois.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <span class="why-num">02</span>
+            <div>
+              <h4>Un plan adapté à ta personnalité</h4>
+              <p>Un scalper stressé n'a pas le même plan qu'un swing trader. On construit quelque chose qui te ressemble et que tu peux tenir.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <span class="why-num">03</span>
+            <div>
+              <h4>Accélération de la courbe d'apprentissage</h4>
+              <p>Ce qui prend 3 ans seul peut prendre 3 mois avec le bon mentor. Pas de formule magique — juste moins d'erreurs coûteuses.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <span class="why-num">04</span>
+            <div>
+              <h4>Accountability et discipline</h4>
+              <p>Avoir quelqu'un qui vérifie ton journal de trading change tout. L'humain est plus performant sous observation bienveillante.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="coaching-box">
+          <h3>Ce que tu obtiens</h3>
+          <div class="offer-item">
+            <span class="offer-check">✦</span>
+            <p>Session d'appel découverte de 30 min pour cerner ton profil et tes objectifs</p>
+          </div>
+          <div class="offer-item">
+            <span class="offer-check">✦</span>
+            <p>Analyse de tes 10 derniers trades avec identification des erreurs récurrentes</p>
+          </div>
+          <div class="offer-item">
+            <span class="offer-check">✦</span>
+            <p>Construction de ton plan de trading personnalisé (entrées, sorties, risk management)</p>
+          </div>
+          <div class="offer-item">
+            <span class="offer-check">✦</span>
+            <p>Accès à la checklist SummerCamp pour valider chaque trade avant exécution</p>
+          </div>
+          <div class="offer-item">
+            <span class="offer-check">✦</span>
+            <p>Suivi hebdomadaire et revue de performance pour les 4 semaines suivantes</p>
+          </div>
+          <div class="offer-item">
+            <span class="offer-check">✦</span>
+            <p>Accès au groupe privé des participants SummerCamp pour échanges quotidiens</p>
+          </div>
+          <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(201,168,76,0.2);">
+            <a href="#booking" class="btn btn-gold" style="width: 100%; justify-content: center;">
+              Réserver mon appel →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking-section" id="booking">
+  <div class="container">
+    <span class="section-tag" style="color: var(--gold-dark);">Réservation</span>
+    <h2 class="section-title">Prends ton appel maintenant</h2>
+    <div class="gold-line"></div>
+    <p class="section-desc">
+      Choisis la plateforme qui te convient. L'appel découverte est gratuit — 30 minutes
+      pour voir si on peut travailler ensemble.
+    </p>
+
+    <div class="booking-grid">
+      <!-- YouTube -->
+      <a href="https://youtube.com" target="_blank" rel="noopener" class="booking-card booking-card-yt">
+        <div class="booking-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+        </div>
+        <h3>Via YouTube Live</h3>
+        <p>Rejoins le prochain live coaching sur la chaîne YouTube. Pose tes questions en direct et bénéficie de l'énergie du groupe.</p>
+        <div class="booking-arrow">→</div>
+      </a>
+
+      <!-- Google Calendar -->
+      <a href="https://calendar.google.com" target="_blank" rel="noopener" class="booking-card booking-card-gcal">
+        <div class="booking-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+            <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>
+          </svg>
+        </div>
+        <h3>Via Google Calendar</h3>
+        <p>Réserve un créneau 1-on-1 directement dans l'agenda. Coaching individuel, 30 min, totalement personnalisé.</p>
+        <div class="booking-arrow">→</div>
+      </a>
+    </div>
+
+    <!-- Note -->
+    <div style="margin-top: 2.5rem; padding: 1.5rem 2rem; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.25); border-radius: 12px; display: flex; gap: 1rem; align-items: flex-start;">
+      <span style="font-size: 1.3rem; margin-top: 0.1rem;">💬</span>
+      <div>
+        <p style="font-size: 0.92rem; color: var(--ink-3); font-weight: 500; margin-bottom: 0.3rem;">L'appel découverte est 100% gratuit</p>
+        <p style="font-size: 0.85rem; color: var(--gray); line-height: 1.6;">
+          Pas de pression, pas d'engagement. On discute de ta situation, de tes objectifs, et tu décides si le programme SummerCamp est fait pour toi.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">SUMMERCAMP</div>
+      <p style="font-size: 0.78rem; color: var(--gray); margin-top: 0.5rem;">Programme de coaching trading par Alex Moreau</p>
+    </div>
+    <p class="footer-copy">© 2025 SummerCamp. Tous droits réservés.</p>
+    <div class="footer-links">
+      <a href="#about">À propos</a>
+      <a href="#coaching">Coaching</a>
+      <a href="#booking">Réserver</a>
+      <a href="mailto:contact@summercamp.trade">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Smooth reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.problem-card, .why-point, .profile-text, .profile-img-wrap').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
