@@ -651,43 +651,51 @@
     observer.observe(el);
   });
 
-  // Animation des chiffres
-  const stats = [
-    { selector: null, el: null, target: 8, suffix: '+' },
-    { selector: null, el: null, target: 200, suffix: '+' },
-    { selector: null, el: null, target: 4, suffix: '' },
-    { selector: null, el: null, target: 97, suffix: '%' },
+  // ── COMPTEUR ANIMÉ ──
+  const counters = [
+    { target: 8,   suffix: '+', duration: 1200 },
+    { target: 200, suffix: '+', duration: 2000 },
+    { target: 4,   suffix: '',  duration: 800  },
+    { target: 97,  suffix: '%', duration: 1600 },
   ];
 
   const statEls = document.querySelectorAll('.stat-num');
-  statEls.forEach((el, i) => { stats[i].el = el; });
 
-  function animateCount(stat) {
-    const duration = 1800;
-    const start = performance.now();
-    function update(now) {
-      const progress = Math.min((now - start) / duration, 1);
+  // Démarre à 0 au chargement
+  statEls.forEach((el, i) => { el.textContent = '0' + counters[i].suffix; });
+
+  function runCounter(el, target, suffix, duration) {
+    const startTime = performance.now();
+    function tick(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-out cubique : accélère fort au début, ralentit vers la fin
       const ease = 1 - Math.pow(1 - progress, 3);
-      const current = Math.floor(ease * stat.target);
-      stat.el.textContent = current + stat.suffix;
-      if (progress < 1) requestAnimationFrame(update);
-      else stat.el.textContent = stat.target + stat.suffix;
+      const current = Math.floor(ease * target);
+      el.textContent = current + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = target + suffix;
     }
-    requestAnimationFrame(update);
+    requestAnimationFrame(tick);
   }
 
-  const statsObserver = new IntersectionObserver((entries) => {
+  let countersStarted = false;
+  const statsSection = document.querySelector('.hero-stats');
+
+  const counterObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        stats.forEach(s => { if (s.el) animateCount(s); });
-        statsObserver.disconnect();
+      if (e.isIntersecting && !countersStarted) {
+        countersStarted = true;
+        statEls.forEach((el, i) => {
+          const c = counters[i];
+          runCounter(el, c.target, c.suffix, c.duration);
+        });
+        counterObserver.disconnect();
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.6 });
 
-  const heroStats = document.querySelector('.hero-stats');
-  if (heroStats) statsObserver.observe(heroStats);
-  });
+  if (statsSection) counterObserver.observe(statsSection);
 </script>
 
 </body>
